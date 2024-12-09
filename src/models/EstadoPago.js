@@ -23,3 +23,5 @@ const EstadoPago = sequelize.define(
     timestamps: false,
   }
 );
+
+module.exports = EstadoPago;
