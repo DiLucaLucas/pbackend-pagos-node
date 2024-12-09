@@ -58,19 +58,17 @@ const Usuario = sequelize.define(
 );
 
 // Encriptaremos las contraseñas antes de crear el usuario
-Usuario.prototype.validPassword = async function (contrasena) {
-  if (!contrasena || !this.contrasena) {
-    throw new Error("Las contraseñas no coinciden");
-  }
-  return await bcrypt.compare(contrasena, this.contrasena);
-};
+Usuario.beforeCreate(async (user, options) => {
+    const salt = await bcrypt.genSalt(10);
+    user.contrasena = await bcrypt.hash(user.contrasena, salt);
+});
 
 // Método para validar contraseña
-Usuario.prototype.validPassword = async function (contrasena) {
-  if (!contrasena || !this.contrasena) {
-    throw new Error("Datos de contraseña no válidos");
-  }
-  return await bcrypt.compare(contrasena, this.contrasena);
+Usuario.prototype.validPassword = async function (contrasena) { 
+    if (!contrasena || !this.contrasena) {
+        throw new Error("Datos de contraseña no válidos");
+    }
+    return await bcrypt.compare(contrasena, this.contrasena);
 };
 
 module.exports = Usuario;
