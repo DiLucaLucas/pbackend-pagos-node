@@ -9,7 +9,7 @@ const Pago = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    idUsuario: {
+    idusuario: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
